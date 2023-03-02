@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour {
     private Rigidbody2D rb;
@@ -27,10 +28,17 @@ public class Player : MonoBehaviour {
 
     // Will be called by C# events
     private void Jump(InputAction.CallbackContext context) {
+        if (EventSystem.current.IsPointerOverGameObject()) {
+            return;
+        }
         if (context.performed) {
             // rb.velocity = Vector2.up * moveSpeed;
             rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
             Debug.Log("Jump!");
         }
+    }
+
+    public void Submit() {
+        Debug.Log("Clicked");
     }
 }
